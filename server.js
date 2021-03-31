@@ -1,3 +1,9 @@
 const strapi = require('strapi');
-console.log("H")
-strapi().start();
+strapi({
+    dir: __dirname + '/'
+}).start().then(()=>{
+    console.log("STARTED")
+}).catch(()=>{
+    console.log("SOMETHING WAS WRONG")
+    console.log("--Check Logs---")
+})
