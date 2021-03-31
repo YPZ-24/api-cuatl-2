@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "name": "order",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "pagada",
+        "pendiente"
+      ]
+    },
+    "total": {
+      "type": "decimal"
+    },
+    "checkout_session": {
+      "type": "string"
+    },
+    "user": {
+      "via": "orders",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "variants": {
+      "via": "orders",
+      "collection": "variant",
+      "dominant": true
+    },
+    "subtotal": {
+      "type": "decimal"
+    },
+    "delivery_price": {
+      "type": "decimal"
+    },
+    "delivery_status": {
+      "type": "enumeration",
+      "enum": [
+        "entregada",
+        "en camino"
+      ]
+    },
+    "tracking_number": {
+      "type": "string"
+    },
+    "events": {
+      "collection": "event"
+    }
+  }
+}

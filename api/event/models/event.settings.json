@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "name": "event",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "entrada",
+        "salida"
+      ]
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "variant": {
+      "model": "variant"
+    }
+  }
+}
