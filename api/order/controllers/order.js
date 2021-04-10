@@ -135,18 +135,20 @@ module.exports = {
     }
     totals.total = totals.subtotal + totals.delivery_price;
 
-    /*: Create inventory events.
-    const events = order.map((orderItem) => {
-      return strapi.services.event.create({
-        type: 'salida',
-        quantity: orderItem.quantity,
-        variant: orderItem.variant.id
-      });
-    });*/
-
+    //: Create inventory events.
+    const events = await Promise.all(
+      order.map(async (orderItem) => {
+        return await strapi.services.event.create({
+          type: 'salida',
+          quantity: orderItem.quantity,
+          variant: orderItem.variant.id
+        });
+      })
+    )
+  
     //: Create the order.
-    const newOrder = strapi.services.order.create({
-      status: 'no pagada',
+    await strapi.services.order.create({
+      status: 'pendiente',
       total: totals.total,
       checkout_session: session.id,
       subtotal: totals.subtotal,
@@ -171,14 +173,11 @@ module.exports = {
    */
   async confirm(ctx) {
     const { checkout_session } = ctx.request.body;
-
     const session = await stripe.checkout.sessions.retrieve(checkout_session);
-
     if (session.payment_status === 'paid') {
       //: Create stock events.
       let order = await strapi.services.order.findOne({ checkout_session });
       let events = await getEvents(order.variants);
-
       //: Update order.
       const updatedOrder = await strapi.services.order.update(
         {
@@ -187,7 +186,6 @@ module.exports = {
         },
         { status: 'pagada', events }
       );
-
       return sanitizeEntity(updatedOrder, { model: strapi.models.order });
     } else {
       ctx.throw(404, 'Hubo un problema al procesar el pago, por favor ponte en contacto con nuestro equipo de soporte');
