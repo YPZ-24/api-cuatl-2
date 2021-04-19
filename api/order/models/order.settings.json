@@ -52,6 +52,10 @@
     },
     "events": {
       "collection": "event"
+    },
+    "address": {
+      "via": "order",
+      "model": "address"
     }
   }
 }

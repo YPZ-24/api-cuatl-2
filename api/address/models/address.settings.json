@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "addresses",
+  "info": {
+    "name": "Address",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "estado": {
+      "type": "string"
+    },
+    "delegacion": {
+      "type": "string"
+    },
+    "colonia": {
+      "type": "string"
+    },
+    "calle": {
+      "type": "string"
+    },
+    "noInt": {
+      "type": "integer"
+    },
+    "noExt": {
+      "type": "integer"
+    },
+    "cp": {
+      "type": "integer"
+    },
+    "order": {
+      "model": "order",
+      "via": "address"
+    }
+  }
+}

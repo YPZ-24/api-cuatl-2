@@ -90,7 +90,7 @@ module.exports = {
    * @param {any} ctx
    */
   async create(ctx) {
-    const { order } = ctx.request.body;
+    const { order, address } = ctx.request.body;
 
     if (order.length === 0) {
       return ctx.throw(400, '¡Aún no tienes productos en la bolsa, añade algunos!');
@@ -123,7 +123,7 @@ module.exports = {
       payment_method_types: ['card'],
       customer_email: user.email,
       mode: 'payment',
-      success_url: `${BASE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${BASE_URL}/user/orders?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: BASE_URL,
       line_items: items
     });
@@ -156,6 +156,7 @@ module.exports = {
       delivery_status: 'en camino',
       tracking_number: '',
       user: user.id,
+      address: address,
       variants: order.map((orderItem) => orderItem.variant.id),
       events: events
     });
